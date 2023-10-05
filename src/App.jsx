@@ -2,14 +2,17 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-import { useTranslation } from 'react-i18next';
+import { FormattedMessage, IntlProvider } from 'react-intl';
+import { messages } from './lang.config';
+import { useSelector } from 'react-redux';
 
 function App() {
   const [count, setCount] = useState(0)
-  const { t } = useTranslation();
-  console.log("t", t)
+  const currentLang = useSelector(({lang}) => lang)
+
   return (
     <>
+    <IntlProvider locale={currentLang} messages={messages[currentLang]}>
       <div>
         <a href="https://vitejs.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
@@ -28,9 +31,10 @@ function App() {
         </p>
       </div>
       <p className="read-the-docs">
-        {t('click_here')}
+        <FormattedMessage id="click_here" />
         {/* Click on the Vite and React logos to learn more */}
       </p>
+      </IntlProvider>
     </>
   )
 }
